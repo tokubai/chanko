@@ -22,18 +22,21 @@ module Chanko
   end
 
   module Unit
-    module ClassMethods
-      def active_with_activations?(*args)
+    module ActiveWithActivations
+      def active?(*args)
         case Test.activations[unit_name]
         when true
           true
         when false
           false
         else
-          active_without_activations?(*args)
+          active?(*args)
         end
       end
-      alias_method_chain :active?, :activations
+    end
+
+    module ClassMethods
+      prepend ActiveWithActivations
     end
   end
 end
